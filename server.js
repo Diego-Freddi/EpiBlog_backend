@@ -15,7 +15,7 @@ const app = express();
 
 // middleware
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: 'https://epiblog-seven.vercel.app',
     credentials: true
 }));
 app.use(express.json());
