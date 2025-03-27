@@ -16,8 +16,11 @@ const app = express();
 // middleware
 app.use(cors({
     origin: 'https://epiblog-seven.vercel.app',
-    credentials: true
-}));
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Authorization', 'Content-Type']
+  }));
+  
 app.use(express.json());
 
 // Configurazione sessioni
