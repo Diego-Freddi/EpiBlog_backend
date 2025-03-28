@@ -215,7 +215,21 @@ router.get("/:id/like", async (req, res) => {
             return res.status(404).json({ message: "Post non trovato" });
         }
 
-        const isLiked = req.userId ? post.likes.includes(req.userId) : false;
+        // Estrai il token dall'header Authorization se presente
+        const authHeader = req.headers.authorization;
+        let userId = null;
+        
+        if (authHeader && authHeader.startsWith('Bearer ')) {
+            const token = authHeader.split(' ')[1];
+            try {
+                const decoded = jwt.verify(token, process.env.JWT_SECRET);
+                userId = decoded.id;
+            } catch (err) {
+                // Se il token non è valido, procediamo senza userId
+            }
+        }
+
+        const isLiked = userId ? post.likes.includes(userId) : false;
         
         res.json({ 
             likes: post.likes.length,
