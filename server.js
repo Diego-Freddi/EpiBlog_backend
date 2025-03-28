@@ -12,10 +12,21 @@ const commentsRoutes = require("./routes/comments");
 const { router: authRoutes } = require("./routes/auth");
 
 const app = express();
+const allowedOrigins = [
+    'http://localhost:3000',
+    'https://epiblog-seven.vercel.app',
+    'https://epiblog-diego-freddis-projects.vercel.app'
+  ];
 
 // middleware
 app.use(cors({
-    origin: 'https://epiblog-seven.vercel.app',
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+          callback(null, true);
+        } else {
+          callback(new Error('Not allowed by CORS'));
+        }
+      },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Authorization', 'Content-Type']
