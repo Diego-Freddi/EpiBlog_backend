@@ -127,10 +127,18 @@ router.get('/me', async (req, res) => {
 // Login Google
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-router.get('/google/callback', passport.authenticate('google', { failureRedirect: 'http://localhost:3000/login' }), (req, res) => {
-    const token = generateToken(req.user);
-    res.redirect(`http://localhost:3000/login?token=${token}`);
-});
+router.get(
+    '/google/callback',
+    passport.authenticate('google', {
+      failureRedirect: process.env.FRONTEND_URL + '/login',
+      session: false
+    }),
+    (req, res) => {
+      const token = generateToken(req.user);
+      res.redirect(`${process.env.FRONTEND_URL}/login?token=${token}`);
+    }
+  );
+  
 
 // Endpoint per verificare lo stato dell'autenticazione
 router.get('/check', (req, res) => {
