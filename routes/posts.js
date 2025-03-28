@@ -4,6 +4,7 @@ const Post = require("../models/Post");
 const { upload } = require("../utils/cloudinary.js");
 const { auth } = require("./auth");
 const User = require("../models/Users");
+const jwt = require("jsonwebtoken");
 
 //GET tutti i post
 router.get("/", async (req, res) => {
