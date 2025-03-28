@@ -208,14 +208,14 @@ router.post("/:id/like", auth, async (req, res) => {
 });
 
 //GET ottiene lo stato del like per un post
-router.get("/:id/like", auth, async (req, res) => {
+router.get("/:id/like", async (req, res) => {
     try {
         const post = await Post.findById(req.params.id);
         if (!post) {
             return res.status(404).json({ message: "Post non trovato" });
         }
 
-        const isLiked = post.likes.includes(req.userId);
+        const isLiked = req.userId ? post.likes.includes(req.userId) : false;
         
         res.json({ 
             likes: post.likes.length,
